@@ -1,0 +1,40 @@
+local source = {}
+
+local defaults = {
+  file = "~/cmp-{{srcname}}.json"
+}
+
+function source.new()
+    return setmetatable({}, { __index = source })
+end
+
+local events
+function source:is_available()
+  local json_path = vim.fn.expand(defaults.file)
+  local readable = vim.fn.filereadable(json_path)
+  if readable then
+    events = vim.fn.json_decode(vim.fn.readfile(json_path))
+  end
+  return readable
+end
+
+function source:get_keyword_pattern()
+  return [[\%(\k\|\.\)\+]]
+end
+
+function source:complete(request, callback)
+  local input = string.sub(request.context.cursor_before_line, request.offset)
+  local items = {}
+  for k, v in pairs(events["{{srcmap}}"]) do
+    table.insert(items, {
+      filterText = k,
+      label = k,
+      insertText = k,
+      documentation = { "Описание:", string.gsub(v.description, "\r\n", ""), "" }
+    })
+  end
+  callback({ items = items, isIncomplete = true })
+end
+
+return source
+
