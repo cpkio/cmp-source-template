@@ -25,7 +25,7 @@ end
 function source:complete(request, callback)
   local input = string.sub(request.context.cursor_before_line, request.offset)
   local items = {}
-  for k, v in pairs(events["{{srcmap}}"]) do
+  for k, v in pairs(events) do
     table.insert(items, {
       filterText = k,
       label = k,
