@@ -23,7 +23,7 @@ function source:get_keyword_pattern()
 end
 
 function source:complete(request, callback)
-  local input = string.sub(request.context.cursor_before_line, request.offset)
+  -- local input = string.sub(request.context.cursor_before_line, request.offset)
   local items = {}
   for k, v in pairs(events) do
     table.insert(items, {
