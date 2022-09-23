@@ -29,7 +29,7 @@ function source:complete(request, callback)
       filterText = k,
       label = k,
       insertText = k,
-      documentation = "Описание:\r\n" .. string.gsub(v.description, "%c+", " ")
+      documentation = string.gsub(v.description, "%c+", " ")
     })
   end
   callback({ items = items, isIncomplete = true })
